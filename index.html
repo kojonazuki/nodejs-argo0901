@@ -1,326 +1,303 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>守护蔚蓝 · 海洋保护公益宣传</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        oceanDeep:'#06283D',
-                        oceanMid:'#1363DF',
-                        oceanLight:'#47B5FF',
-                        seaFoam:'#DFF6FF',
-                    },
-                    fontFamily:{
-                        sans:['system-ui','sans-serif']
-                    }
-                }
-            }
+    <title>Защита океанов | Сохраним морскую природу</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, sans-serif;
         }
-    </script>
-    <style type="text/tailwindcss">
-        @layer utilities{
-            .text-shadow{
-                text-shadow:0 2px 12px rgba(0,0,0,0.35);
-            }
-            .wave-animation{
-                animation: wave 6s ease-in-out infinite alternate;
-            }
-            .float{
-                animation: float 4s ease-in-out infinite;
-            }
-            .float-delay{
-                animation: float 4.5s ease-in-out infinite 1.2s;
-            }
-            .fade-in{
-                opacity:0;
-                transform:translateY(40px);
-                transition:all 0.8s ease;
-            }
-            .fade-in.active{
-                opacity:1;
-                transform:translateY(0);
-            }
+        body {
+            color: #0f3460;
+            overflow-x: hidden;
         }
-
-        @keyframes wave{
-            0%{ transform:translateX(-5px) translateY(0px); }
-            100%{ transform:translateX(5px) translateY(-8px); }
+        /* 导航栏 */
+        nav {
+            position: fixed;
+            width: 100%;
+            padding: 1.2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(12, 74, 110, 0.25);
+            backdrop-filter: blur(8px);
+            transition: all 0.4s;
         }
-        @keyframes float{
-            0%{ transform:translateY(0px); }
-            50%{ transform:translateY(-15px); }
-            100%{ transform:translateY(0px); }
+        nav.scrolled {
+            background: #0c4a6e;
         }
-
-        .wave-bg{
-            background: linear-gradient(180deg,#06283D 0%,#1363DF 50%,#47B5FF 100%);
+        .logo {
+            color: #fff;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 2rem;
+            transition: 0.3s;
+        }
+        .nav-links a:hover {
+            color: #4dd0e1;
+        }
+        /* 首屏海浪动画 */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(160deg, #0891b2, #164e63);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+        .hero-content {
+            z-index: 2;
+            padding: 0 20px;
+        }
+        .hero h1 {
+            font-size: clamp(2rem,5vw,3.8rem);
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 650px;
+            margin: 0 auto 2rem;
+            opacity: 0.92;
+        }
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            background-color: #22d3ee;
+            color: #0c4a6e;
+            font-weight: 600;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(34,211,238,0.35);
+        }
+        /* 海浪svg动画 */
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 140px;
+        }
+        /* 通用区块 */
+        section {
+            padding: 80px 5%;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            color:#0c4a6e;
+            margin-bottom: 50px;
+        }
+        /* 问题板块 */
+        .problems-wrap {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+            gap: 30px;
+        }
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 18px rgba(12,74,110,0.12);
+            transition: 0.4s;
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(12,74,110,0.18);
+        }
+        .card h3 {
+            color:#0891b2;
+            margin-bottom: 14px;
+            font-size:1.3rem;
+        }
+        /* 行动建议 */
+        .action-section {
+            background-color: #e0f7fa;
+        }
+        .action-list {
+            max-width:800px;
+            margin:0 auto;
+        }
+        .action-item {
+            background:#fff;
+            margin-bottom:18px;
+            padding:22px 26px;
+            border-left:6px solid #06b6d4;
+            border-radius:0 10px 10px 0;
+            opacity:0;
+            transform: translateY(30px);
+        }
+        .action-item.show {
+            opacity:1;
+            transform: translateY(0);
+            transition:0.6s ease;
+        }
+        /* 统计数字 */
+        .stats-row {
+            display:grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
+            gap:24px;
+            text-align:center;
+        }
+        .stat-box {
+            padding:30px 10px;
+        }
+        .stat-num {
+            font-size:3rem;
+            font-weight:bold;
+            color:#0891b2;
+        }
+        /* 底部 */
+        footer {
+            background:#0c4a6e;
+            color:#fff;
+            text-align:center;
+            padding:40px 20px;
+        }
+        /* 移动端 */
+        @media(max-width:700px){
+            .nav-links { display:none; }
         }
     </style>
 </head>
-<body class="bg-oceanDeep text-white overflow-x-hidden">
-    <!-- 顶部导航 -->
-    <nav class="fixed top-0 left-0 w-full z-50 transition-all duration-500" id="navbar">
-        <div class="container mx-auto px-5 py-4 flex justify-between items-center">
-            <div class="text-xl font-bold flex items-center gap-2">
-                <i class="fa fa-life-ring text-oceanLight"></i>
-                <span>守护蔚蓝海洋</span>
-            </div>
-            <div class="hidden md:flex gap-8">
-                <a href="#home" class="hover:text-oceanLight transition-colors">首页</a>
-                <a href="#danger" class="hover:text-oceanLight transition-colors">海洋危机</a>
-                <a href="#action" class="hover:text-oceanLight transition-colors">我们行动</a>
-                <a href="#join" class="hover:text-oceanLight transition-colors">参与公益</a>
-            </div>
-            <button class="md:hidden text-2xl" id="menuBtn"><i class="fa fa-bars"></i></button>
-        </div>
-        <!--移动端菜单-->
-        <div class="md:hidden hidden bg-oceanDeep/95 absolute w-full px-5 pb-4" id="mobileMenu">
-            <div class="flex flex-col gap-4">
-                <a href="#home" class="py-2 hover:text-oceanLight">首页</a>
-                <a href="#danger" class="py-2 hover:text-oceanLight">海洋危机</a>
-                <a href="#action" class="py-2 hover:text-oceanLight">我们行动</a>
-                <a href="#join" class="py-2 hover:text-oceanLight">参与公益</a>
-            </div>
+<body>
+    <nav id="navbar">
+        <div class="logo">🌊 Океан Живёт</div>
+        <div class="nav-links">
+            <a href="#about">О проблеме</a>
+            <a href="#stats">Статистика</a>
+            <a href="#action">Наши действия</a>
+            <a href="#contact">Контакты</a>
         </div>
     </nav>
 
-    <!--首屏横幅-->
-    <section id="home" class="wave-bg min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
-        <!--动态装饰元素-->
-        <div class="absolute top-[15%] left-[10%] float text-6xl opacity-20">🐋</div>
-        <div class="absolute top-[40%] right-[12%] float-delay text-5xl opacity-20">🐢</div>
-        <div class="absolute bottom-[20%] left-[20%] float text-4xl opacity-20">🐠</div>
-        <div class="absolute bottom-[30%] right-[25%] float-delay text-4xl opacity-20">🦀</div>
-
-        <div class="container mx-auto px-5 text-center z-10">
-            <h1 class="text-[clamp(2rem,7vw,4.5rem)] font-bold mb-6 text-shadow wave-animation">
-                守护蔚蓝大海，守护地球生命摇篮
-            </h1>
-            <p class="text-[clamp(1rem,3vw,1.3rem)] max-w-3xl mx-auto mb-10 text-seaFoam/90 leading-relaxed">
-                海洋覆盖地球71%的面积，是万千生灵的家园。塑料污染、过度捕捞、海水酸化正摧毁这片蓝色净土。<br>
-                保护海洋，就是保护人类的未来。
-            </p>
-            <a href="#danger" class="inline-block bg-oceanLight hover:bg-oceanMid px-8 py-4 rounded-full text-lg font-medium transition-all duration-300 shadow-lg hover:shadow-oceanLight/30 hover:-translate-y-1">
-                了解海洋现状 <i class="fa fa-angle-down ml-2"></i>
-            </a>
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Сохраним океаны для будущих поколений</h1>
+            <p>Океан покрывает более 70% нашей планеты. Загрязнение пластиком, перелов и изменение климата угрожают морской жизни. Каждый человек может помочь.</p>
+            <a href="#action" class="btn">Узнать, как помочь</a>
         </div>
-        <!--海浪底部装饰-->
-        <div class="absolute bottom-0 left-0 w-full">
-            <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,48C672,43,768,53,864,64C960,75,1056,85,1152,80C1248,75,1344,53,1392,42.7L1440,32L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z" fill="#06283D"/>
-            </svg>
-        </div>
-    </section>
+        <svg class="wave" viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,48C672,43,768,53,864,69.3C960,85,1056,107,1152,101.3C1248,96,1344,64,1392,48L1440,32L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z" fill="#ffffff"/>
+        </svg>
+    </div>
 
-    <!--海洋危机板块-->
-    <section id="danger" class="py-24 bg-oceanDeep">
-        <div class="container mx-auto px-5">
-            <div class="text-center mb-16 fade-in">
-                <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-bold mb-4">海洋正在面临危机</h2>
-                <p class="text-gray-300 max-w-2xl mx-auto">人类活动给海洋带来巨大伤害，每一秒都有海洋生物因为污染失去家园</p>
+    <section id="about">
+        <h2 class="section-title">Угрозы для мирового океана</h2>
+        <div class="problems-wrap">
+            <div class="card">
+                <h3>Пластиковое загрязнение</h3>
+                <p>Каждый год в океан попадает миллионы тонн пластика. Морские животные путаются в отходах и проглатывают пластиковые частицы. Микропластик уже встречается во всех уголках морей.</p>
             </div>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-gradient-to-b from-oceanMid/20 to-transparent p-8 rounded-2xl border border-oceanMid/30 fade-in hover:border-oceanLight/60 transition-all hover:-translate-y-2 duration-300">
-                    <div class="text-5xl mb-5 text-oceanLight">🗑️</div>
-                    <h3 class="text-xl font-semibold mb-3">海洋塑料污染</h3>
-                    <p class="text-gray-300 leading-relaxed">每年超过800万吨塑料垃圾流入大海，大量海洋动物误食塑料、被渔网缠绕致死。</p>
-                </div>
-                <div class="bg-gradient-to-b from-oceanMid/20 to-transparent p-8 rounded-2xl border border-oceanMid/30 fade-in hover:border-oceanLight/60 transition-all hover:-translate-y-2 duration-300">
-                    <div class="text-5xl mb-5 text-oceanLight">🌡️</div>
-                    <h3 class="text-xl font-semibold mb-3">海水升温酸化</h3>
-                    <p class="text-gray-300 leading-relaxed">气候变暖造成珊瑚大规模白化死亡，海洋酸化侵蚀贝类、珊瑚的骨骼，破坏海洋食物链。</p>
-                </div>
-                <div class="bg-gradient-to-b from-oceanMid/20 to-transparent p-8 rounded-2xl border border-oceanMid/30 fade-in hover:border-oceanLight/60 transition-all hover:-translate-y-2 duration-300">
-                    <div class="text-5xl mb-5 text-oceanLight">🎣</div>
-                    <h3 class="text-xl font-semibold mb-3">过度捕捞</h3>
-                    <p class="text-gray-300 leading-relaxed">无节制捕捞使许多鱼类濒临灭绝，海洋生态链遭到破坏，海洋自我修复能力持续下降。</p>
-                </div>
+            <div class="card">
+                <h3>Перелов рыбы</h3>
+                <p>Чрезмерный вылов рыбы разрушает морские экосистемы. Многие виды рыб находятся на грани исчезновения. Нарушен естественный баланс пищевой цепи океана.</p>
+            </div>
+            <div class="card">
+                <h3>Кислотность воды</h3>
+                <p>Из‑за выбросов углекислого газа вода океана становится более кислой. Это разрушает коралловые рифы и раковины моллюсков, уничтожая дома для тысяч морских видов.</p>
             </div>
         </div>
     </section>
 
-    <!--数据统计板块-->
-    <section class="py-18 bg-oceanMid/10">
-        <div class="container mx-auto px-5 py-12">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                <div class="fade-in">
-                    <div class="text-4xl md:text-5xl font-bold text-oceanLight mb-2 counter" data-target="800">0</div>
-                    <p class="text-gray-300">万吨每年流入海洋塑料</p>
-                </div>
-                <div class="fade-in">
-                    <div class="text-4xl md:text-5xl font-bold text-oceanLight mb-2 counter" data-target="70">0</div>
-                    <p class="text-gray-300">%海洋被塑料垃圾污染</p>
-                </div>
-                <div class="fade-in">
-                    <div class="text-4xl md:text-5xl font-bold text-oceanLight mb-2 counter" data-target="1000">0</div>
-                    <p class="text-gray-300">种生物受塑料威胁</p>
-                </div>
-                <div class="fade-in">
-                    <div class="text-4xl md:text-5xl font-bold text-oceanLight mb-2 counter" data-target="50">0</div>
-                    <p class="text-gray-300">%珊瑚礁已经退化消失</p>
-                </div>
+    <section id="stats" class="action-section">
+        <h2 class="section-title">Факты о состоянии океана</h2>
+        <div class="stats-row">
+            <div class="stat-box">
+                <div class="stat-num">70%</div>
+                <p>Площадь планеты покрыта водой</p>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num">8 млн</div>
+                <p>Тонн пластика в океан ежегодно</p>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num">50%</div>
+                <p>Коралловых рифов уже погибли</p>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num">3 млрд</div>
+                <p>Людей зависят от океана</p>
             </div>
         </div>
     </section>
 
-    <!--我们可以做什么-->
-    <section id="action" class="py-24">
-        <div class="container mx-auto px-5">
-            <div class="text-center mb-16 fade-in">
-                <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-bold mb-4">守护海洋，从点滴做起</h2>
-                <p class="text-gray-300 max-w-2xl mx-auto">每个人小小的行动汇聚起来，就可以改变海洋的未来</p>
+    <section id="action">
+        <h2 class="section-title">Что может сделать каждый человек?</h2>
+        <div class="action-list">
+            <div class="action-item">
+                <h3>Откажитесь от одноразового пластика</h3>
+                <p>Используйте многоразовые бутылки, сумки и контейнеры. Меньше пластика — меньше отходов в моря.</p>
             </div>
-            <div class="grid md:grid-cols-2 gap-10 items-center">
-                <div class="space-y-6">
-                    <div class="flex gap-5 items-start fade-in">
-                        <div class="shrink-0 w-12 h-12 rounded-full bg-oceanMid flex items-center justify-center text-xl">1</div>
-                        <div>
-                            <h4 class="text-lg font-medium mb-1">减少一次性塑料制品</h4>
-                            <p class="text-gray-300">自带购物袋、水杯，减少吸管、一次性餐具使用，拒绝塑料污染源头。</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-5 items-start fade-in">
-                        <div class="shrink-0 w-12 h-12 rounded-full bg-oceanMid flex items-center justify-center text-xl">2</div>
-                        <div>
-                            <h4 class="text-lg font-medium mb-1">理性选择海鲜产品</h4>
-                            <p class="text-gray-300">拒绝食用濒危海洋生物，选择可持续捕捞的海产品，减轻海洋捕捞压力。</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-5 items-start fade-in">
-                        <div class="shrink-0 w-12 h-12 rounded-full bg-oceanMid flex items-center justify-center text-xl">3</div>
-                        <div>
-                            <h4 class="text-lg font-medium mb-1">海边游玩不留垃圾</h4>
-                            <p class="text-gray-300">去海边游玩带走全部垃圾，参与海滩清理志愿活动，保护海岸环境。</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-5 items-start fade-in">
-                        <div class="shrink-0 w-12 h-12 rounded-full bg-oceanMid flex items-center justify-center text-xl">4</div>
-                        <div>
-                            <h4 class="text-lg font-medium mb-1">传播海洋保护理念</h4>
-                            <p class="text-gray-300">向家人朋友科普海洋保护知识，让更多人认识保护海洋的重要意义。</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="fade-in">
-                    <div class="rounded-2xl overflow-hidden border border-oceanLight/20 p-6 bg-oceanMid/10">
-                        <div class="text-8xl text-center my-6 float">🌊</div>
-                        <blockquote class="text-xl italic text-seaFoam text-center leading-relaxed">
-                            “海洋不是人类的垃圾桶，它是万物共同的家园。”
-                        </blockquote>
-                    </div>
-                </div>
+            <div class="action-item">
+                <h3>Покупайте устойчивую рыбную продукцию</h3>
+                <p>Выбирайте рыбу, выловленную без вреда природе. Поддерживайте ответственных производителей.</p>
+            </div>
+            <div class="action-item">
+                <h3>Участвуйте в уборке берегов</h3>
+                <p>Присоединяйтесь к волонтерским акциям по очистке пляжей от мусора.</p>
+            </div>
+            <div class="action-item">
+                <h3>Рассказывайте другим о проблеме</h3>
+                <p>Поделитесь знаниями с друзьями и близкими. Осведомленность — первый шаг к переменам.</p>
+            </div>
+            <div class="action-item">
+                <h3>Сокращайте углеродный след</h3>
+                <p>Экономьте энергию, используйте общественный транспорт. Это замедляет потепление и закисление океана.</p>
             </div>
         </div>
     </section>
 
-    <!--参与公益行动-->
-    <section id="join" class="py-24 wave-bg">
-        <div class="container mx-auto px-5 text-center">
-            <div class="fade-in">
-                <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-bold mb-5">加入海洋保护公益行动</h2>
-                <p class="max-w-2xl mx-auto mb-10 text-seaFoam/90">
-                    签名支持海洋保护倡议，一起呼吁社会重视海洋生态，共建蓝色美好星球。
-                </p>
-                <div class="max-w-xl mx-auto bg-white/10 backdrop-blur-md p-8 rounded-2xl border border-white/20">
-                    <div class="space-y-5 text-left">
-                        <input type="text" placeholder="请输入您的姓名" class="w-full px-4 py-3 rounded-lg bg-white/15 border border-white/30 outline-none focus:border-oceanLight text-white placeholder:text-gray-300">
-                        <input type="email" placeholder="电子邮箱（选填）" class="w-full px-4 py-3 rounded-lg bg-white/15 border border-white/30 outline-none focus:border-oceanLight text-white placeholder:text-gray-300">
-                        <textarea rows="3" placeholder="写下你对海洋保护的寄语" class="w-full px-4 py-3 rounded-lg bg-white/15 border border-white/30 outline-none focus:border-oceanLight text-white placeholder:text-gray-300 resize-none"></textarea>
-                        <button id="submitBtn" class="w-full bg-oceanLight hover:bg-seaFoam hover:text-oceanDeep py-3.5 rounded-lg font-medium transition-all duration-300">
-                            <i class="fa fa-heart mr-2"></i>提交公益签名
-                        </button>
-                    </div>
-                    <p class="mt-4 text-sm text-gray-200">本页面仅用于公益宣传演示</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!--页脚-->
-    <footer class="py-10 bg-black/40 text-center text-gray-400">
-        <div class="container mx-auto px-5">
-            <p class="mb-3">🌊守护蔚蓝海洋 · 公益宣传网页</p>
-            <p class="text-sm">爱护海洋环境，共建人与自然和谐家园</p>
-        </div>
+    <footer id="contact">
+        <h3>🌊 Проект «Океан Живёт»</h3>
+        <p>Общественная инициатива по защите морской среды</p>
+        <br>
+        <p>© 2026 Все права защищены | Сохраним океаны вместе</p>
     </footer>
 
     <script>
-        //移动端菜单切换
-        const menuBtn = document.getElementById('menuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-        menuBtn.addEventListener('click',()=>{
-            mobileMenu.classList.toggle('hidden');
-        })
-
         //导航栏滚动变色
-        const navbar = document.getElementById('navbar');
+        const nav = document.getElementById('navbar');
         window.addEventListener('scroll',()=>{
-            if(window.scrollY>80){
-                navbar.classList.add('bg-oceanDeep/90','backdrop-blur-md','shadow-lg');
+            if(window.scrollY > 80){
+                nav.classList.add('scrolled');
             }else{
-                navbar.classList.remove('bg-oceanDeep/90','backdrop-blur-md','shadow-lg');
+                nav.classList.remove('scrolled');
             }
         })
 
-        //滚动渐入动画
-        const fadeElements = document.querySelectorAll('.fade-in');
+        //滚动显示行动卡片动画
+        const actionItems = document.querySelectorAll('.action-item');
         const observer = new IntersectionObserver((entries)=>{
-            entries.forEach(entry=>{
-                if(entry.isIntersecting){
-                    entry.target.classList.add('active');
+            entries.forEach(item=>{
+                if(item.isIntersecting){
+                    item.target.classList.add('show');
                 }
             })
-        },{threshold:0.15});
-        fadeElements.forEach(el=>observer.observe(el));
+        },{threshold:0.2})
 
-        //数字计数动画
-        const counters = document.querySelectorAll('.counter');
-        let countRun = false;
-        window.addEventListener('scroll',()=>{
-            if(countRun) return;
-            const offset = document.querySelector('.counter').getBoundingClientRect().top;
-            if(offset < window.innerHeight){
-                countRun = true;
-                counters.forEach(counter=>{
-                    const target = Number(counter.dataset.target);
-                    let cur = 0;
-                    const speed = target / 60;
-                    const timer = setInterval(()=>{
-                        cur += speed;
-                        if(cur >= target){
-                            counter.innerText = target;
-                            clearInterval(timer);
-                        }else{
-                            counter.innerText = Math.floor(cur);
-                        }
-                    },30)
-                })
-            }
-        })
-
-        //表单提交演示
-        document.getElementById('submitBtn').addEventListener('click',()=>{
-            alert("感谢您支持海洋保护公益！💙\n本网页为演示页面，数据不会真实提交。");
-        })
+        actionItems.forEach(el=> observer.observe(el))
 
         //平滑滚动
         document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
             anchor.addEventListener('click',function(e){
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if(target){
-                    window.scrollTo({
-                        top:target.offsetTop -70,
-                        behavior:'smooth'
-                    })
-                    mobileMenu.classList.add('hidden');
-                }
+                const targetId = this.getAttribute('href');
+                document.querySelector(targetId).scrollIntoView({behavior:'smooth'})
             })
         })
     </script>
